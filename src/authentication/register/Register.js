@@ -7,9 +7,11 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
-  GoogleAuthProvider,
+  GoogleAuthProvider,updateProfile,
 } from "firebase/auth";
 import { auth } from "../../Firebase";
+import { loginUser } from "../../slices/UserSlice";
+import { useDispatch } from "react-redux";
 
 function Register() {
   const navigate = useNavigate();
@@ -17,6 +19,7 @@ function Register() {
   const [PhotoUrl, setPhotoUrl] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch()
   const provider = new GoogleAuthProvider();
 
   const handleSignup = () => {
@@ -33,22 +36,32 @@ function Register() {
       if (!PhotoUrl) {
         return alert("PhotoUrl is required");
       }
-      setEmail("")
-      setName("")
-      setPhotoUrl("")
-      setPassword("")
-    }
-    createUserWithEmailAndPassword(auth, email, password).then(
-      signInWithEmailAndPassword(auth, email, password)
-    );
-    const user = userCredential.user;
-    // console.log("user",user)
+     
+    createUserWithEmailAndPassword(auth, email, password).then((userAuth ) => {
+        userAuth.user.updateProfile({
+          displayName: name,
+          photoUrl: PhotoUrl
+        }).then(() => {
+          dispatch(loginUser({
+            email: userAuth.user.email,
+            uid: userAuth.user.uid,
+            displayName: name,
+            photoUrl: PhotoUrl
+          }))
+        })
+      });
+   
     toast.success("Account created successfully");
     navigate("/feed").catch((err) => {
-      alert(err);
+      // alert(err);
       toast.error("Cannot create Account");
     });
-  };
+    setEmail("")
+    setName("")
+    setPhotoUrl("")
+    setPassword("")
+  }
+  
 
   const signInWithGoogle = async () => {
     try {
@@ -121,6 +134,7 @@ function Register() {
       </div>
     </div>
   );
+}
 }
 
 export default Register;

@@ -4,9 +4,12 @@ import Sidebar from "./sidebar/Sidebar";
 import Feed from "./feed/Feed";
 import Widget from "./widget/Widget";
 import Login from "./authentication/login/Login";
+import { useSelector } from "react-redux";
+import { selectUser } from "./slices/UserSlice";
 
 function Layout() {
-  const user =  null;
+  const user =  useSelector(selectUser);
+  console.log("user",user);
   return (
     <>
     {
