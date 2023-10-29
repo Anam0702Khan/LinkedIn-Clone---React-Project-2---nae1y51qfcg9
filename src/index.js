@@ -10,14 +10,15 @@ import Register from "./authentication/register/Register";
 import Feed from "./feed/Feed";
 import { Login } from "@mui/icons-material";
 import Layout from "./Layout";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
+  <HashRouter>
     <Provider store={store}>
       <Layout />
       <ToastContainer />
     </Provider>
-  </BrowserRouter>
+  </HashRouter>
 );
