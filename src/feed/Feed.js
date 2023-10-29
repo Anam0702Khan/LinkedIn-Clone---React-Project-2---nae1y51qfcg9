@@ -8,11 +8,14 @@ import "./Feed.css";
 import Post from '../post/Post'
 import ModalComponent from "../modal/ModalComponent";
 import { PostStatus ,getPosts} from "../FirestoreApi";
+import { useSelector } from "react-redux";
+import { selectUser } from "../slices/UserSlice";
 
 function Feed() {
   const [open, setOpen] = useState(false);
   const [status,setStatus] = useState("")
   const [allStatus, setAllStatus] = useState([])
+  const user = useSelector(selectUser)
 
   const sendStatus = async() => {
     await PostStatus(status)
@@ -32,7 +35,8 @@ function Feed() {
     <div className="feed">
       <div className="feed__form">
         <div className="feed__input">
-          <Avatar />
+        <Avatar src={user ? user.photoURL : ''} />
+
           {/* <form > */}
             {/* <input type="text" placeholder="Start a post"  /> */}
             <button className="btn" onClick={handleOpen}>Start a post</button>
@@ -68,14 +72,14 @@ function Feed() {
       setOpen={setOpen} 
       status={status} 
       setStatus={setStatus}
-       sendStatus={sendStatus}/>
+       sendStatus={sendStatus}  />
 
-       {allStatus.map((post) => {
+       {allStatus.map((post,index) => {
        return (
         <>
-        <div className="post-update">
+        <div className="post-update" key={index}>
         <div className="post-update-img">
-        <Avatar />
+        <Avatar src={user ? user.photoURL : ''} />
 
         </div>
           <p>{post.status}</p>

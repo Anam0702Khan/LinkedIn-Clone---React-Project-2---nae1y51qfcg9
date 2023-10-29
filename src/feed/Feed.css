@@ -6,6 +6,13 @@
     border-radius: 10px;
 }
 
+@media (max-width: 1111px) {
+    .feed{
+        display: flex;
+        flex: 1;
+    }
+}
+
 .feed__input{
     display: flex;
     /* flex-direction :column; */

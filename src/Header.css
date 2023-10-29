@@ -44,6 +44,12 @@
  }  
 
 
+ @media (max-width: 1111px) {
+  .header__right{
+      /* display: ; */
+      margin-left: 70px;
+  }
+}
 .header__options{
   display: flex;
   flex-direction: column;

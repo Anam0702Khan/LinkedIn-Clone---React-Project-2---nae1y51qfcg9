@@ -7,25 +7,49 @@ import { signInWithEmailAndPassword , GoogleAuthProvider,signInWithPopup} from "
 import { auth } from "../../Firebase";
 
 function Login() {
-  const [credentials, setCredentials] = useState({});
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
   let googleProvider = new GoogleAuthProvider()
   const navigate = useNavigate()
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, credentials.email, credentials.password);
-    toast.success("Login in LinkedIn")
-    navigate("/feed")
+    if(!email){
+      return alert("Email is required.")
+    }
+    if(!password){
+      return alert("Password is required.")
+    }
+    signInWithEmailAndPassword(auth, email, password)
+    .then(({user}) => 
+    {
+      console.log(user)
+      dispatch(
+        loginUser({
+          email: user.email,
+          uid: user.uid,
+          displayName:  user.displayName,
+          photoURL: user.photoURL,
+        })
+      );
+
+    })
+    .catch(error => console.log(error))
+    console.log("ddgyyy");
+    toast.error("Cannot login in LinkedIn")
+    navigate("/")
+    
   };
 
   const googleSignIn =  async() => {
      try{
         let result =  await signInWithPopup(auth,googleProvider)
         toast.success("SignedIn to LinkedIn")
-        navigate("/feed")
+        navigate("/")
      } catch(err)  {console.log(err) 
       toast.error("Please check your Credentials ")}
   }
   return (
+  
     <div className="login">
       <img
         className="logo"
@@ -39,7 +63,7 @@ function Login() {
           type="email"
           placeholder="Email or Phone"
           onChange={(e) =>
-            setCredentials({ ...credentials, email: e.target.value })
+            setEmail(e.target.value)
           }
         />
         <input
@@ -47,16 +71,16 @@ function Login() {
           type="password"
           placeholder="Password"
           onChange={(e) =>
-            setCredentials({ ...credentials, password: e.target.value })
+            setPassword(e.target.value)
           }
         />
       </div>
-      <button className="sign-btn" onClick={handleLogin}>Sign in</button>
+      <button className="sign-btn" onClick={handleLogin} >Sign in</button>
       <p className="or-text">OR</p>
       <div className="google-btn-container">
         
       <GoogleButton
-        onClick={ googleSignIn }
+       onClick={googleSignIn}
         
       />
       <p className="go-to-signup">New to LinkedIn ? <span className="join-now" onClick={() => navigate("/register")}>Join now</span></p>

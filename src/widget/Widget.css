@@ -6,6 +6,12 @@
     margin-bottom: 20px;
 }
 
+@media (max-width: 1111px) {
+    .widget{
+        display: none;
+    }
+}
+
 .widget__header{
     display: flex;
     align-items: center;

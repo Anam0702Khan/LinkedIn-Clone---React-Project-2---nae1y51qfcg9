@@ -6,10 +6,15 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import SendIcon from "@mui/icons-material/Send";
 import ShareIcon from "@mui/icons-material/Share";
+import { red } from "@mui/material/colors";
 
 function Post() {
   const [apidata, setApiData] = useState([]);
-  const apiUrl = " https://academics.newtonschool.co/api/v1/linkedin/post";
+  const [like, setLike] = useState(true);
+  const [comment, setComment] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
+  const apiUrl = "https://academics.newtonschool.co/api/v1/linkedin/post";
 
   const getData = () => {
     fetch(apiUrl, {
@@ -24,6 +29,17 @@ function Post() {
         setApiData(data.data);
       })
       .catch((err) => console.error("Error", err));
+  };
+
+  const handleLike = () => {
+    setLike(!like);
+    setLikeCount(like ? likeCount + 1 : likeCount - 1);
+  };
+
+  const handleComment = () => {
+    // alert("comment")
+    setComment(!comment);
+    setCommentCount(comment ? commentCount - 1 : commentCount + 1);
   };
 
   useEffect(() => {
@@ -51,34 +67,48 @@ function Post() {
 
             <div className="post__body">
               <p>{post.content}</p>
-              <img className='post-img' src={post.channel.image} />
+              <img className="post-img" src={post.channel.image} />
 
               <div className="post__numbers">
-                <span className="like__number">{post.likeCount}    likes</span>
-
-                <span className="comment__number">{post.commentCount}   comments</span>
+                <span className="like__number">{likeCount} likes</span>
+                <span className="comment__number">{commentCount} comments</span>
               </div>
             </div>
 
             <div className="post__footer">
               <div className="post__footer__option">
-                <ThumbUpIcon />
-                <span>Like</span>
+                <div onClick={handleLike}>
+                  {like ? (
+                    <div>
+                      <ThumbUpIcon />
+                      <span>Like</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <ThumbUpIcon style={{ color: "#004c75" }} />
+                      <span>Like</span>
+                    </div>
+                  )
+                  }
+                </div>
               </div>
 
               <div className="post__footer__option">
-                <CommentIcon />
-                <span>Comment</span>
-              </div>
-
-              <div className="post__footer__option">
-                <SendIcon />
-                <span>Send</span>
-              </div>
-
-              <div className="post__footer__option">
-                <ShareIcon />
-                <span>Share</span>
+                <div onClick={handleComment}>
+                  {comment ? (
+                    <div>
+                      <CommentIcon style={{ color: '#004c75'}} />
+                      <span>Comment</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <CommentIcon />
+                      <span>Comment</span>
+                    </div>
+                  )
+                  }
+                </div>
+               
               </div>
             </div>
           </div> //last div
@@ -88,3 +118,5 @@ function Post() {
 }
 
 export default Post;
+
+

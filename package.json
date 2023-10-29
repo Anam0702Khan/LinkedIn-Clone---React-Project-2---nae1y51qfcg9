@@ -1,5 +1,5 @@
 {
-  "homepage": "https://Anam0702Khan.github.io/LinkedIn-Clone---React-Project-2---nae1y51qfcg9.git",
+  "homepage": "https://Anam0702Khan.github.io/LinkedIn-Clone---React-Project-2---nae1y51qfcg9",
   "name": "react-18",
   "version": "1.0.0",
   "description": "React 18 template",
@@ -33,7 +33,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -b main -d build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "cypress run  --headless --reporter mochawesome",

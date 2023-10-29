@@ -1,16 +1,19 @@
 import React from 'react'
 import "./Sidebar.css"
 import { Avatar } from '@mui/material'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../slices/UserSlice'
 
 function Sidebar() {
+  const user = useSelector(selectUser)
   return (
     <div className='sidebar'>
         <div className='sidebar__profile'>
           <img src='https://i.pinimg.com/750x/7c/49/d4/7c49d4e0ce3b7117707026f5a93797f6.jpg' />
 
           <div className='profile__details'>
-            <Avatar />
-            <h4>xyz</h4>
+            <Avatar  src={user.photoURL}/>
+            <h4>{user ? user.displayName: ''}</h4>
             <p>Web Developer</p>
           </div>
 

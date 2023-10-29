@@ -7,7 +7,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
-  GoogleAuthProvider,updateProfile,
+  GoogleAuthProvider,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../../Firebase";
 import { loginUser } from "../../slices/UserSlice";
@@ -16,64 +17,118 @@ import { useDispatch } from "react-redux";
 function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const [PhotoUrl, setPhotoUrl] = useState("");
+  const [photoURL, setphotoURL] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const provider = new GoogleAuthProvider();
 
-  const handleSignup = () => {
-    {
-      if (!email) {
-        return alert("Email is required");
-      }
-      if (!name) {
-        return alert("Name is required.");
-      }
-      if (!password) {
-        return alert("Password is required.");
-      }
-      if (!PhotoUrl) {
-        return alert("PhotoUrl is required");
-      }
-     
-    createUserWithEmailAndPassword(auth, email, password).then((userAuth ) => {
-        userAuth.user.updateProfile({
-          displayName: name,
-          photoUrl: PhotoUrl
-        }).then(() => {
-          dispatch(loginUser({
-            email: userAuth.user.email,
-            uid: userAuth.user.uid,
-            displayName: name,
-            photoUrl: PhotoUrl
-          }))
-        })
-      });
-   
-    toast.success("Account created successfully");
-    navigate("/feed").catch((err) => {
-      // alert(err);
-      toast.error("Cannot create Account");
-    });
-    setEmail("")
-    setName("")
-    setPhotoUrl("")
-    setPassword("")
-  }
-  
+  // const handleSignup = () => {
+  //   {
+  //     if (!email) {
+  //       return alert("Email is required");
+  //     }
+  //     if (!name) {
+  //       return alert("Name is required.");
+  //     }
+  //     if (!password) {
+  //       return alert("Password is required.");
+  //     }
+  //     if (!photoURL) {
+  //       return alert("photoURL is required");
+  //     }
 
-  const signInWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      console.log(result);
-      toast.success("Account created successfully");
-      navigate("/feed");
-    } catch (error) {
-      toast.error("Cannot Create Account");
-      console.error(error);
+  //   createUserWithEmailAndPassword(auth, email, password).then((userAuth ) => {
+  //       userAuth.user.updateProfile({
+  //         displayName: name,
+  //         photoURL: photoURL
+  //       }).then(() => {
+  //         dispatch(loginUser({
+  //           email: userAuth.user.email,
+  //           uid: userAuth.user.uid,
+  //           displayName: name,
+  //           photoURL: photoURL
+  //         }))
+  //       })
+  //     }).catch(error => alert(error))
+  //    toast.success("Account created successfully");
+
+  //   setEmail("")
+  //   setName("")
+  //   setphotoURL("")
+  //   setPassword("")
+  //   navigate("/")
+  // }
+  const handleSignup = () => {
+    if (!email) {
+      return alert("Email is required");
     }
+    if (!name) {
+      return alert("Name is required.");
+    }
+    if (!password) {
+      return alert("Password is required.");
+    }
+    if (!photoURL) {
+      return alert("photoURL is required");
+    }
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userAuth) => {
+      // Sign in the user and then update the profile
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          // Update the user profile
+          updateProfile(auth.currentUser, {
+            displayName: name,
+            photoURL: photoURL,
+          })
+            .then(() => {
+              dispatch(
+                loginUser({
+                  email: auth.currentUser.email,
+                  uid: auth.currentUser.uid,
+                  displayName: name,
+                  photoURL: photoURL,
+                })
+              );
+              toast.success("Account created successfully");
+              navigate("/");
+            })
+            .catch((err) => {
+              alert(err);
+              console.log(err);
+            });
+        })
+        .catch((error) => {
+          alert(error);
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      alert(error);
+      console.log(error);
+    });
+    
+    toast.success("Account created successfully");
+    setEmail("");
+    setName("");
+    setphotoURL("");
+    setPassword("");
+    navigate("/");
   };
+
+  // const signInWithGoogle = async () => {
+  //   try {
+  //     const result = await signInWithPopup(auth, provider);
+  //     console.log(result);
+  //     navigate("/");
+  //     toast.success("Account created successfully");
+      
+  //   } catch (error) {
+  //     toast.error("Cannot Create Account");
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div className="login">
@@ -95,9 +150,9 @@ function Register() {
         <input
           className="common-input"
           type="text"
-          placeholder="PhotoUrl"
-          value={PhotoUrl}
-          onChange={(e) => setPhotoUrl(e.target.value)}
+          placeholder="photoURL"
+          value={photoURL}
+          onChange={(e) => setphotoURL(e.target.value)}
           required
           autoComplete="on"
         />
@@ -122,9 +177,9 @@ function Register() {
       <button className="sign-btn" onClick={handleSignup}>
         Agree & Join
       </button>
-      <p className="or-text">OR</p>
+      {/* <p className="or-text">OR</p> */}
       <div className="google-btn-container">
-        <GoogleButton onClick={signInWithGoogle} />
+        {/* <GoogleButton onClick={signInWithGoogle} /> */}
         <p className="go-to-signup">
           Already on LinkedIn ?{" "}
           <span className="join-now" onClick={() => navigate("/login")}>
@@ -134,7 +189,6 @@ function Register() {
       </div>
     </div>
   );
-}
 }
 
 export default Register;

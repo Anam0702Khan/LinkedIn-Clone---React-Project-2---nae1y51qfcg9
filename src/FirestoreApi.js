@@ -18,7 +18,7 @@ export const PostStatus = (status) => {
     .then((res) => {
         toast.success('Document has been added successfully')
     })
-    .catch((err) => console.log('error',error))
+    .catch((err) => console.log('error',err))
 }
 
 export const getPosts = (setAllStatus) => {
