@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/static/css/main.06dc5086.css",
-    "main.js": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/static/js/main.0bb4335a.js",
+    "main.css": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/static/css/main.6c603a1f.css",
+    "main.js": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/static/js/main.a2b199b9.js",
     "index.html": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/index.html",
-    "main.06dc5086.css.map": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/static/css/main.06dc5086.css.map",
-    "main.0bb4335a.js.map": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/static/js/main.0bb4335a.js.map"
+    "main.6c603a1f.css.map": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/static/css/main.6c603a1f.css.map",
+    "main.a2b199b9.js.map": "/LinkedIn-Clone---React-Project-2---nae1y51qfcg9/static/js/main.a2b199b9.js.map"
   },
   "entrypoints": [
-    "static/css/main.06dc5086.css",
-    "static/js/main.0bb4335a.js"
+    "static/css/main.6c603a1f.css",
+    "static/js/main.a2b199b9.js"
   ]
 }
